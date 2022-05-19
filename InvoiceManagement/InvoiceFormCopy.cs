@@ -51,6 +51,9 @@ namespace InvoiceManagement
             supName.AutoCompleteSource = AutoCompleteSource.CustomSource;
             supName.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             supName.KeyDown += supName_KeyDown;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+
 
 
         }
@@ -63,6 +66,47 @@ namespace InvoiceManagement
             }
         }
 
+        private void supName_TextChanged(object sender, EventArgs e)
+        {
+            string SuppName = supName.Text;
+            string GSTIN = string.Empty;
+            GSTIN = GetGSTIN(SuppName);
+            if(!string.IsNullOrEmpty(GSTIN))
+            {
+                supGSTIN.Text = GSTIN;
+            }
+            else
+            {
+                supGSTIN.Text = string.Empty;
+            }
+
+
+
+
+
+        }
+        private string GetGSTIN(string suppName)
+        {
+            string GSTIN = string.Empty;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT  top 1 * FROM Supplier where Name='{suppName}' ", con);
+                var queryReader = cmd.ExecuteReader();
+                while (queryReader.Read())
+                {
+                    supplier.Id = Convert.ToInt16(queryReader["Id"].ToString());
+                    supplier.InvoiceNumber = queryReader["InvoiceNumber"].ToString();
+                    supplier.InvoiceDate = queryReader["InvoiceDate"].ToString();
+                    supplier.Name = queryReader["Name"].ToString();
+                    supplier.Address = queryReader["Address"].ToString();
+                    supplier.GSTIN = queryReader["GSTIN"].ToString();
+                    supplier.SupplySite = queryReader["SupplySite"].ToString();
+                    GSTIN = supplier.GSTIN;
+                }
+            }
+            return GSTIN;
+        }
         private string[] GetSupplier()
         {
             Supplier supplier = new Supplier();
@@ -559,14 +603,15 @@ namespace InvoiceManagement
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
             this.btnClose.Hide();
-            bitmap = new Bitmap(new InvoiceForm().Width, new InvoiceForm().Height);
+            bitmap = new Bitmap(new InvoiceFormCopy().Width, new InvoiceFormCopy().Height);
             bitmap = Transparent2Color(bitmap, Color.White);
             this.DrawToBitmap(bitmap, this.DisplayRectangle);
-
             e.Graphics.DrawImage(bitmap, 0, 0);
             int milliseconds = 5000;
             Thread.Sleep(milliseconds);
             this.btnClose.Show();
+
+
 
 
         }

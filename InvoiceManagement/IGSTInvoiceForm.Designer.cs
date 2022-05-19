@@ -30,6 +30,9 @@ namespace InvoiceManagement
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IGSTInvoiceForm));
             this.lb_EnterprisesName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -48,7 +51,6 @@ namespace InvoiceManagement
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.lb_Signature = new System.Windows.Forms.Label();
             this.lb_GSTNumber = new System.Windows.Forms.Label();
@@ -77,7 +79,6 @@ namespace InvoiceManagement
             this.label10 = new System.Windows.Forms.Label();
             this.totalAmount = new System.Windows.Forms.TextBox();
             this.txtAmount = new System.Windows.Forms.TextBox();
-            this.CGST = new System.Windows.Forms.TextBox();
             this.netTotal = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -85,6 +86,8 @@ namespace InvoiceManagement
             this.txtInvoiceDate = new System.Windows.Forms.TextBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.txt_InvoiceNumber = new System.Windows.Forms.TextBox();
+            this.CGST = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.InvoicedataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,7 +95,7 @@ namespace InvoiceManagement
             // 
             this.lb_EnterprisesName.AutoSize = true;
             this.lb_EnterprisesName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_EnterprisesName.Location = new System.Drawing.Point(418, 85);
+            this.lb_EnterprisesName.Location = new System.Drawing.Point(416, 74);
             this.lb_EnterprisesName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lb_EnterprisesName.Name = "lb_EnterprisesName";
             this.lb_EnterprisesName.Size = new System.Drawing.Size(516, 42);
@@ -103,7 +106,7 @@ namespace InvoiceManagement
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(548, 139);
+            this.label2.Location = new System.Drawing.Point(559, 116);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(188, 21);
@@ -114,7 +117,7 @@ namespace InvoiceManagement
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(501, 176);
+            this.label3.Location = new System.Drawing.Point(512, 145);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(301, 21);
@@ -124,7 +127,7 @@ namespace InvoiceManagement
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(73, 67);
+            this.label4.Location = new System.Drawing.Point(73, 127);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 20);
@@ -134,7 +137,7 @@ namespace InvoiceManagement
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(944, 64);
+            this.label6.Location = new System.Drawing.Point(941, 114);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(43, 20);
@@ -144,7 +147,7 @@ namespace InvoiceManagement
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(987, 64);
+            this.label5.Location = new System.Drawing.Point(1001, 114);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(99, 20);
@@ -154,7 +157,7 @@ namespace InvoiceManagement
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(987, 84);
+            this.label7.Location = new System.Drawing.Point(1002, 134);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(99, 20);
@@ -165,7 +168,7 @@ namespace InvoiceManagement
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(579, 243);
+            this.label8.Location = new System.Drawing.Point(579, 224);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(134, 24);
@@ -175,7 +178,7 @@ namespace InvoiceManagement
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(854, 175);
+            this.label9.Location = new System.Drawing.Point(854, 176);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(102, 20);
@@ -255,27 +258,17 @@ namespace InvoiceManagement
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(734, 793);
+            this.label18.Location = new System.Drawing.Point(734, 700);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(185, 20);
             this.label18.TabIndex = 19;
             this.label18.Text = "Total amount before Tax:";
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(734, 840);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(127, 20);
-            this.label19.TabIndex = 20;
-            this.label19.Text = "Add IGST @ 5%";
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(733, 891);
+            this.label21.Location = new System.Drawing.Point(733, 798);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(168, 20);
@@ -285,7 +278,7 @@ namespace InvoiceManagement
             // lb_Signature
             // 
             this.lb_Signature.AutoSize = true;
-            this.lb_Signature.Location = new System.Drawing.Point(897, 929);
+            this.lb_Signature.Location = new System.Drawing.Point(897, 836);
             this.lb_Signature.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lb_Signature.Name = "lb_Signature";
             this.lb_Signature.Size = new System.Drawing.Size(194, 20);
@@ -295,7 +288,7 @@ namespace InvoiceManagement
             // lb_GSTNumber
             // 
             this.lb_GSTNumber.AutoSize = true;
-            this.lb_GSTNumber.Location = new System.Drawing.Point(75, 883);
+            this.lb_GSTNumber.Location = new System.Drawing.Point(75, 790);
             this.lb_GSTNumber.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lb_GSTNumber.Name = "lb_GSTNumber";
             this.lb_GSTNumber.Size = new System.Drawing.Size(220, 20);
@@ -305,7 +298,7 @@ namespace InvoiceManagement
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(183, 905);
+            this.label29.Location = new System.Drawing.Point(183, 812);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(116, 20);
@@ -315,7 +308,7 @@ namespace InvoiceManagement
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(78, 905);
+            this.label30.Location = new System.Drawing.Point(78, 812);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(92, 20);
@@ -325,7 +318,7 @@ namespace InvoiceManagement
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(80, 791);
+            this.label28.Location = new System.Drawing.Point(80, 698);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(69, 20);
@@ -385,6 +378,7 @@ namespace InvoiceManagement
             this.supName.Name = "supName";
             this.supName.Size = new System.Drawing.Size(223, 26);
             this.supName.TabIndex = 38;
+            this.supName.TextChanged += new System.EventHandler(this.supName_TextChanged);
             // 
             // supAddress
             // 
@@ -412,7 +406,7 @@ namespace InvoiceManagement
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(512, 965);
+            this.btnSave.Location = new System.Drawing.Point(512, 872);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(112, 35);
@@ -423,7 +417,7 @@ namespace InvoiceManagement
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(634, 965);
+            this.btnCancel.Location = new System.Drawing.Point(634, 872);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(112, 35);
@@ -435,7 +429,7 @@ namespace InvoiceManagement
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(166, 67);
+            this.label35.Location = new System.Drawing.Point(166, 127);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(13, 20);
@@ -445,10 +439,10 @@ namespace InvoiceManagement
             // InvoiceDate
             // 
             this.InvoiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.InvoiceDate.Location = new System.Drawing.Point(969, 167);
+            this.InvoiceDate.Location = new System.Drawing.Point(969, 174);
             this.InvoiceDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.InvoiceDate.Name = "InvoiceDate";
-            this.InvoiceDate.Size = new System.Drawing.Size(116, 26);
+            this.InvoiceDate.Size = new System.Drawing.Size(140, 26);
             this.InvoiceDate.TabIndex = 46;
             // 
             // InvoicedataGrid
@@ -457,6 +451,14 @@ namespace InvoiceManagement
             this.InvoicedataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.InvoicedataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.InvoicedataGrid.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.InvoicedataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.InvoicedataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.InvoicedataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnItem,
@@ -465,12 +467,28 @@ namespace InvoiceManagement
             this.ColumnQty,
             this.ColumnRate,
             this.ColumnAmount});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.InvoicedataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.InvoicedataGrid.Location = new System.Drawing.Point(77, 388);
             this.InvoicedataGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.InvoicedataGrid.Name = "InvoicedataGrid";
             this.InvoicedataGrid.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.InvoicedataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.InvoicedataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.InvoicedataGrid.Size = new System.Drawing.Size(1008, 395);
+            this.InvoicedataGrid.Size = new System.Drawing.Size(1008, 294);
             this.InvoicedataGrid.TabIndex = 47;
             this.InvoicedataGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.InvoicedataGrid_CellMouseClick);
             // 
@@ -513,7 +531,7 @@ namespace InvoiceManagement
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(915, 979);
+            this.label10.Location = new System.Drawing.Point(915, 886);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(157, 20);
@@ -522,36 +540,29 @@ namespace InvoiceManagement
             // 
             // totalAmount
             // 
-            this.totalAmount.Location = new System.Drawing.Point(985, 787);
+            this.totalAmount.Location = new System.Drawing.Point(985, 694);
             this.totalAmount.Name = "totalAmount";
             this.totalAmount.Size = new System.Drawing.Size(100, 26);
             this.totalAmount.TabIndex = 49;
             // 
             // txtAmount
             // 
-            this.txtAmount.Location = new System.Drawing.Point(158, 789);
+            this.txtAmount.Location = new System.Drawing.Point(160, 696);
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(325, 26);
             this.txtAmount.TabIndex = 51;
             this.txtAmount.TextChanged += new System.EventHandler(this.txtAmount_TextChanged);
             // 
-            // CGST
-            // 
-            this.CGST.Location = new System.Drawing.Point(985, 832);
-            this.CGST.Name = "CGST";
-            this.CGST.Size = new System.Drawing.Size(100, 26);
-            this.CGST.TabIndex = 53;
-            // 
             // netTotal
             // 
-            this.netTotal.Location = new System.Drawing.Point(985, 883);
+            this.netTotal.Location = new System.Drawing.Point(985, 790);
             this.netTotal.Name = "netTotal";
             this.netTotal.Size = new System.Drawing.Size(100, 26);
             this.netTotal.TabIndex = 54;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(512, 1007);
+            this.button1.Location = new System.Drawing.Point(512, 914);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 40);
             this.button1.TabIndex = 55;
@@ -575,14 +586,14 @@ namespace InvoiceManagement
             // 
             // txtInvoiceDate
             // 
-            this.txtInvoiceDate.Location = new System.Drawing.Point(969, 166);
+            this.txtInvoiceDate.Location = new System.Drawing.Point(970, 174);
             this.txtInvoiceDate.Name = "txtInvoiceDate";
-            this.txtInvoiceDate.Size = new System.Drawing.Size(116, 26);
+            this.txtInvoiceDate.Size = new System.Drawing.Size(140, 26);
             this.txtInvoiceDate.TabIndex = 56;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(634, 1005);
+            this.btnClose.Location = new System.Drawing.Point(634, 912);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 40);
             this.btnClose.TabIndex = 57;
@@ -592,10 +603,27 @@ namespace InvoiceManagement
             // 
             // txt_InvoiceNumber
             // 
-            this.txt_InvoiceNumber.Location = new System.Drawing.Point(185, 63);
+            this.txt_InvoiceNumber.Location = new System.Drawing.Point(185, 123);
             this.txt_InvoiceNumber.Name = "txt_InvoiceNumber";
             this.txt_InvoiceNumber.Size = new System.Drawing.Size(223, 26);
             this.txt_InvoiceNumber.TabIndex = 58;
+            // 
+            // CGST
+            // 
+            this.CGST.Location = new System.Drawing.Point(986, 742);
+            this.CGST.Name = "CGST";
+            this.CGST.Size = new System.Drawing.Size(100, 26);
+            this.CGST.TabIndex = 62;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(734, 745);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(127, 20);
+            this.label19.TabIndex = 59;
+            this.label19.Text = "Add IGST @ 5%";
             // 
             // IGSTInvoiceForm
             // 
@@ -604,14 +632,15 @@ namespace InvoiceManagement
             this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1425, 676);
+            this.ClientSize = new System.Drawing.Size(1451, 676);
             this.ControlBox = false;
+            this.Controls.Add(this.CGST);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.txt_InvoiceNumber);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtInvoiceDate);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.netTotal);
-            this.Controls.Add(this.CGST);
             this.Controls.Add(this.txtAmount);
             this.Controls.Add(this.totalAmount);
             this.Controls.Add(this.label10);
@@ -634,7 +663,6 @@ namespace InvoiceManagement
             this.Controls.Add(this.lb_GSTNumber);
             this.Controls.Add(this.lb_Signature);
             this.Controls.Add(this.label21);
-            this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
@@ -681,7 +709,6 @@ namespace InvoiceManagement
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label lb_Signature;
         private System.Windows.Forms.Label lb_GSTNumber;
@@ -704,7 +731,6 @@ namespace InvoiceManagement
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox totalAmount;
         private System.Windows.Forms.TextBox txtAmount;
-        private System.Windows.Forms.TextBox CGST;
         private System.Windows.Forms.TextBox netTotal;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
@@ -718,5 +744,7 @@ namespace InvoiceManagement
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAmount;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.TextBox txt_InvoiceNumber;
+        private System.Windows.Forms.TextBox CGST;
+        private System.Windows.Forms.Label label19;
     }
 }

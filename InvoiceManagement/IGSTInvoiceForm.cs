@@ -22,30 +22,114 @@ namespace InvoiceManagement
         private string connectionString;
         private int ctr = 0;
         private double SumAmount = 0;
+        private AutoCompleteStringCollection autoCompleteList = new AutoCompleteStringCollection();
+
 
 
         public IGSTInvoiceForm()
         {
             InitializeComponent();
-            connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString; 
+            connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
             this.lb_GSTNumber.Text = ConfigurationManager.AppSettings["lb_GSTNumber"];
             this.lb_Signature.Text = ConfigurationManager.AppSettings["lb_Signature"];
             txt_InvoiceNumber.Text = lastInvoiceNumber();
             txtInvoiceDate.Hide();
             InvoicedataGrid.RowHeadersVisible = false;
+            this.InvoicedataGrid.Columns[0].Width = 40;
+            this.InvoicedataGrid.Columns[1].Width = 220;
+            this.InvoicedataGrid.Columns[2].Width = 60;
             this.InvoicedataGrid.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.InvoicedataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.InvoicedataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.totalAmount.TextAlign = HorizontalAlignment.Right;
-            //this.SGST.TextAlign = HorizontalAlignment.Right;
             this.CGST.TextAlign = HorizontalAlignment.Right;
             this.netTotal.TextAlign = HorizontalAlignment.Right;
+            var ListNames = GetSupplier();
+            autoCompleteList.AddRange(ListNames);
+            supName.AutoCompleteCustomSource = autoCompleteList;
+            supName.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            supName.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            supName.KeyDown += supName_KeyDown;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
 
 
 
         }
 
+        private void supName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                this.Name = (sender as TextBox).Text;
+            }
+        }
 
+        private void supName_TextChanged(object sender, EventArgs e)
+        {
+            string SuppName = supName.Text;
+            string GSTIN = string.Empty;
+            GSTIN = GetGSTIN(SuppName);
+            if (!string.IsNullOrEmpty(GSTIN))
+            {
+                supGSTIN.Text = GSTIN;
+            }
+            else
+            {
+                supGSTIN.Text = string.Empty;
+            }
+
+
+
+
+
+        }
+        private string GetGSTIN(string suppName)
+        {
+            string GSTIN = string.Empty;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT  top 1 * FROM Supplier where Name='{suppName}' ", con);
+                var queryReader = cmd.ExecuteReader();
+                while (queryReader.Read())
+                {
+                    supplier.Id = Convert.ToInt16(queryReader["Id"].ToString());
+                    supplier.InvoiceNumber = queryReader["InvoiceNumber"].ToString();
+                    supplier.InvoiceDate = queryReader["InvoiceDate"].ToString();
+                    supplier.Name = queryReader["Name"].ToString();
+                    supplier.Address = queryReader["Address"].ToString();
+                    supplier.GSTIN = queryReader["GSTIN"].ToString();
+                    supplier.SupplySite = queryReader["SupplySite"].ToString();
+                    GSTIN = supplier.GSTIN;
+                }
+            }
+            return GSTIN;
+        }
+        private string[] GetSupplier()
+        {
+            Supplier supplier = new Supplier();
+            List<string> supplierName = new List<string>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Supplier", con);
+                var queryReader = cmd.ExecuteReader();
+                while (queryReader.Read())
+                {
+                    supplier.Id = Convert.ToInt16(queryReader["Id"].ToString());
+                    supplier.InvoiceNumber = queryReader["InvoiceNumber"].ToString();
+                    supplier.InvoiceDate = queryReader["InvoiceDate"].ToString();
+                    supplier.Name = queryReader["Name"].ToString();
+                    supplier.Address = queryReader["Address"].ToString();
+                    supplier.GSTIN = queryReader["GSTIN"].ToString();
+                    supplier.SupplySite = queryReader["SupplySite"].ToString();
+                    supplierName.Add(supplier.Name);
+
+                }
+            }
+            return supplierName.ToArray();
+        }
 
         private int MaxId()
         {

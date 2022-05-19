@@ -204,7 +204,7 @@ namespace InvoiceManagement
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand($"select SGST from Invoice where InvoiceId={InvoiceId}", con);
+                SqlCommand cmd = new SqlCommand($"select SGST from Invoice where InvoiceId={InvoiceId}", con);//sgst==0==> igst
                 cmd.CommandType = CommandType.Text;
                 var result=cmd.ExecuteScalar();
                 check =result.ToString()=="0.00"? true : false;
