@@ -63,7 +63,6 @@ namespace InvoiceManagement
             this.supGSTIN = new System.Windows.Forms.TextBox();
             this.supSupplySite = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.label35 = new System.Windows.Forms.Label();
             this.InvoiceDate = new System.Windows.Forms.DateTimePicker();
             this.InvoicedataGrid = new System.Windows.Forms.DataGridView();
@@ -87,6 +86,7 @@ namespace InvoiceManagement
             this.SGST = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.btnUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.InvoicedataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -227,7 +227,7 @@ namespace InvoiceManagement
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(73, 323);
+            this.label15.Location = new System.Drawing.Point(68, 323);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(89, 20);
@@ -374,6 +374,7 @@ namespace InvoiceManagement
             // 
             this.supName.Location = new System.Drawing.Point(185, 197);
             this.supName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.supName.MaxLength = 3276790;
             this.supName.Name = "supName";
             this.supName.Size = new System.Drawing.Size(223, 26);
             this.supName.TabIndex = 38;
@@ -405,7 +406,7 @@ namespace InvoiceManagement
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(512, 888);
+            this.btnSave.Location = new System.Drawing.Point(512, 884);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(112, 35);
@@ -413,17 +414,6 @@ namespace InvoiceManagement
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(634, 888);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 35);
-            this.btnCancel.TabIndex = 43;
-            this.btnCancel.Text = "CANCEL";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click_1);
             // 
             // label35
             // 
@@ -441,7 +431,7 @@ namespace InvoiceManagement
             this.InvoiceDate.Location = new System.Drawing.Point(975, 174);
             this.InvoiceDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.InvoiceDate.Name = "InvoiceDate";
-            this.InvoiceDate.Size = new System.Drawing.Size(142, 26);
+            this.InvoiceDate.Size = new System.Drawing.Size(154, 26);
             this.InvoiceDate.TabIndex = 46;
             // 
             // InvoicedataGrid
@@ -537,9 +527,9 @@ namespace InvoiceManagement
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(512, 930);
+            this.button1.Location = new System.Drawing.Point(647, 882);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 40);
+            this.button1.Size = new System.Drawing.Size(112, 35);
             this.button1.TabIndex = 55;
             this.button1.Text = "PRINT";
             this.button1.UseVisualStyleBackColor = true;
@@ -563,12 +553,12 @@ namespace InvoiceManagement
             // 
             this.txtInvoiceDate.Location = new System.Drawing.Point(975, 174);
             this.txtInvoiceDate.Name = "txtInvoiceDate";
-            this.txtInvoiceDate.Size = new System.Drawing.Size(142, 26);
+            this.txtInvoiceDate.Size = new System.Drawing.Size(110, 26);
             this.txtInvoiceDate.TabIndex = 56;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(634, 928);
+            this.btnClose.Location = new System.Drawing.Point(578, 927);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 40);
             this.btnClose.TabIndex = 57;
@@ -617,6 +607,16 @@ namespace InvoiceManagement
             this.label19.TabIndex = 59;
             this.label19.Text = "Add CGST @ 2.5%";
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(512, 885);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(112, 35);
+            this.btnUpdate.TabIndex = 63;
+            this.btnUpdate.Text = "UPDATE";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
             // InvoiceFormCopy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -626,6 +626,7 @@ namespace InvoiceManagement
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1451, 676);
             this.ControlBox = false;
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.CGST);
             this.Controls.Add(this.SGST);
             this.Controls.Add(this.label20);
@@ -641,7 +642,6 @@ namespace InvoiceManagement
             this.Controls.Add(this.InvoicedataGrid);
             this.Controls.Add(this.InvoiceDate);
             this.Controls.Add(this.label35);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.supSupplySite);
             this.Controls.Add(this.supGSTIN);
@@ -718,7 +718,6 @@ namespace InvoiceManagement
         private System.Windows.Forms.TextBox supGSTIN;
         private System.Windows.Forms.TextBox supSupplySite;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.DateTimePicker InvoiceDate;
         private System.Windows.Forms.DataGridView InvoicedataGrid;
@@ -742,5 +741,6 @@ namespace InvoiceManagement
         private System.Windows.Forms.TextBox SGST;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }

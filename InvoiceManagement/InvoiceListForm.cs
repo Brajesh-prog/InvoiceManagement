@@ -16,6 +16,7 @@ namespace InvoiceManagement
     public partial class InvoiceListForm : Form
     {
         private string connectionString;
+        private bool modifyData = false;
         public InvoiceListForm()
         {
             InitializeComponent();
@@ -27,6 +28,14 @@ namespace InvoiceManagement
             deleteButton.Text = "REMOVE";
             deleteButton.UseColumnTextForButtonValue = true;
             this.dataGridView1.Columns.Add(deleteButton);
+
+            //Modify Btn
+            var modifyButton = new DataGridViewButtonColumn();
+            modifyButton.Name = "dataGridViewModifyButton";
+            modifyButton.HeaderText = "Modify";
+            modifyButton.Text = "UPDATE";
+            modifyButton.UseColumnTextForButtonValue = true;
+            this.dataGridView1.Columns.Add(modifyButton);
 
 
             connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
@@ -48,7 +57,7 @@ namespace InvoiceManagement
                 {
                     //first remove from db 
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                    int SupplierId = Convert.ToInt16(row.Cells[1].Value.ToString());
+                    int SupplierId = Convert.ToInt16(row.Cells[2].Value.ToString());
                     int success = 0;
                     using (SqlConnection con = new SqlConnection(connectionString))
                     {
@@ -89,7 +98,41 @@ namespace InvoiceManagement
                 
 
             }
+
+            //modify
+            if(e.ColumnIndex == dataGridView1.Columns["dataGridViewModifyButton"].Index)
+            {
+
+                int InvoiceId = 0;
+               
+                if (e.RowIndex > -1 && e.ColumnIndex > 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                    InvoiceId = Convert.ToInt16(row.Cells[2].Value.ToString());
+                    modifyData = true;
+                    //get IGST or sgst invoice
+                    if (CheckIGSTorSGST(InvoiceId))
+                    {
+                        IGSTInvoiceForm iGSTInvoice = new IGSTInvoiceForm();
+                        iGSTInvoice.UpdateInvoiceForm(InvoiceId,row,modifyData);
+                        iGSTInvoice.Show();
+                    }
+                    else
+                    {
+                        InvoiceFormCopy invoiceFormCopy = new InvoiceFormCopy();
+                        invoiceFormCopy.UpdateInvoiceForm(InvoiceId,row,modifyData);
+                        invoiceFormCopy.Show();
+
+
+                    }
+                }
+
+
+            }
+
         }
+
+
         void InvoiceListForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -112,6 +155,7 @@ namespace InvoiceManagement
         }
         public void InvoiceListForm_Load(object sender, EventArgs e)
         {
+
             DataSet ds = new DataSet();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -137,7 +181,7 @@ namespace InvoiceManagement
             frmInvoiceForm.Show();
         }
 
-        private void btnList_Click(object sender, EventArgs e)
+        protected void btnList_Click(object sender, EventArgs e)
         {
             this.dataGridView1.AllowUserToAddRows = true;
             DataSet ds = new DataSet();
@@ -217,21 +261,22 @@ namespace InvoiceManagement
         private void dataGridView1_CellMouseClick(Object sender, DataGridViewCellMouseEventArgs e)
         {
             int InvoiceId = 0;
-            if (e.RowIndex > -1 && e.ColumnIndex > 0)
+            if (e.RowIndex > -1 && e.ColumnIndex > 1)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                InvoiceId = Convert.ToInt16(row.Cells[1].Value.ToString());
+                InvoiceId = Convert.ToInt16(row.Cells[2].Value.ToString());
+                modifyData = false;
                 //get IGST or sgst invoice
                 if (CheckIGSTorSGST(InvoiceId))
                 {
                     IGSTInvoiceForm iGSTInvoice = new IGSTInvoiceForm();
-                    iGSTInvoice.UpdateInvoiceForm(InvoiceId);
+                    iGSTInvoice.UpdateInvoiceForm(InvoiceId,row,modifyData);
                     iGSTInvoice.Show();
                 }
                 else
                 {
                     InvoiceFormCopy invoiceFormCopy = new InvoiceFormCopy();
-                    invoiceFormCopy.UpdateInvoiceForm(InvoiceId);
+                    invoiceFormCopy.UpdateInvoiceForm(InvoiceId,row,modifyData);
                     invoiceFormCopy.Show();
                     //InvoiceForm invoiceForm = new InvoiceForm();
                     //invoiceForm.UpdateInvoiceForm(InvoiceId);
@@ -254,19 +299,6 @@ namespace InvoiceManagement
             iGSTInvoice.Show();
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-
-        //    SimpleListForm lstbtn = new SimpleListForm(ListBillForm);
-        //    lstbtn.Show();
-        //}
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    //this.Hide();
-        //    SimpleListForm simpleListForm = new SimpleListForm();
-        //    simpleListForm.Show();
-
-        //}
+        
     }
 }

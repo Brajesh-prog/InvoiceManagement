@@ -23,6 +23,7 @@ namespace InvoiceManagement
         private int ctr = 0;
         private double SumAmount = 0;
         private AutoCompleteStringCollection autoCompleteList = new AutoCompleteStringCollection();
+        private int InvoiceIdToUpdate = 0;
 
 
 
@@ -42,6 +43,7 @@ namespace InvoiceManagement
             this.InvoicedataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.InvoicedataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.totalAmount.TextAlign = HorizontalAlignment.Right;
+            //this.SGST.TextAlign = HorizontalAlignment.Right;
             this.CGST.TextAlign = HorizontalAlignment.Right;
             this.netTotal.TextAlign = HorizontalAlignment.Right;
             var ListNames = GetSupplier();
@@ -52,6 +54,7 @@ namespace InvoiceManagement
             supName.KeyDown += supName_KeyDown;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.btnUpdate.Hide();
 
 
 
@@ -67,6 +70,9 @@ namespace InvoiceManagement
 
         private void supName_TextChanged(object sender, EventArgs e)
         {
+            Size size = TextRenderer.MeasureText(supName.Text, supName.Font);
+            supName.Width = size.Width;
+            supName.Height = size.Height;
             string SuppName = supName.Text;
             string GSTIN = string.Empty;
             GSTIN = GetGSTIN(SuppName);
@@ -130,7 +136,6 @@ namespace InvoiceManagement
             }
             return supplierName.ToArray();
         }
-
         private int MaxId()
         {
             int Id = 0;
@@ -147,6 +152,7 @@ namespace InvoiceManagement
                 return Id + 1;
             }
         }
+
         private int MaxParticularsId()
         {
             int Id = 0;
@@ -235,7 +241,7 @@ namespace InvoiceManagement
                                         particular.Item = Convert.ToInt16(row.Cells[0].Value.ToString());
                                         particular.Particular = row.Cells[1].Value.ToString();
                                         particular.HSN = row.Cells[2].Value.ToString();
-                                        particular.Qty = Convert.ToDecimal(Regex.Match(row.Cells[3].Value.ToString(), @"[0-9]+(\.[0-9]+)?").Value);
+                                        particular.Qty = row.Cells[3].Value.ToString();
                                         particular.Rate = Convert.ToDecimal(row.Cells[4].Value);
                                         particular.Amount = Convert.ToDecimal(row.Cells[5].Value);
                                         if (!IsAnyNullOrEmpty(particular))
@@ -273,9 +279,9 @@ namespace InvoiceManagement
                                 invoice.Id = MaxInvoiceID();
                                 invoice.InvoiceId = supplier.Id;
                                 invoice.SupplierId = particular.Id;
-                                invoice.Amount =Convert.ToDecimal(totalAmount.Text.ToString());
-                                invoice.CGST =Convert.ToDecimal(CGST.Text.ToString());
-                                invoice.SGST = Convert.ToDecimal("00");
+                                invoice.Amount = Convert.ToDecimal(totalAmount.Text.ToString());
+                                invoice.CGST = Convert.ToDecimal(CGST.Text.ToString());
+                                invoice.SGST = 0;
                                 invoice.netAmount = Convert.ToDecimal(netTotal.Text.ToString());
                                 invoice.amountInWord = txtAmount.Text.ToString();
                                 if (!IsAnyNullOrEmpty(invoice))
@@ -331,15 +337,15 @@ namespace InvoiceManagement
         private void InvoicedataGrid_CellMouseClick(Object sender, DataGridViewCellMouseEventArgs e)
         {
 
-            if (e.ColumnIndex == 5 && e.RowIndex > -1)//HSN cell
+            if (e.ColumnIndex == 5 && e.RowIndex > -1)//particulars
             {
                 DataGridViewRow row = InvoicedataGrid.Rows[e.RowIndex];
                 try
                 {
-                    particular.Qty =Convert.ToDecimal( Regex.Match(row.Cells[3].Value.ToString(), @"[0-9]+(\.[0-9]+)?").Value);//row.Cells[3].Value.ToString().Replace("m3"," ");
+                    particular.Qty = Regex.Match(row.Cells[3].Value.ToString(), @"[0-9]+(\.[0-9]+)?").Value;//row.Cells[3].Value.ToString().Replace("m3"," ");
                     particular.Rate = Convert.ToDecimal(row.Cells[4].Value);
-                    particular.Amount = Convert.ToDecimal(particular.Qty * particular.Rate);
-                    InvoicedataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value =string.Format("{0:0.00}", particular.Amount);
+                    particular.Amount = Convert.ToDecimal(Convert.ToDecimal(particular.Qty) * particular.Rate);
+                    InvoicedataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = string.Format("{0:0.00}", particular.Amount);
                 }
                 catch (Exception ex)
                 {
@@ -357,18 +363,18 @@ namespace InvoiceManagement
                     }
                     if (ctr == InvoicedataGrid.Rows.Count)
                     {
-                        totalAmount.Text =Convert.ToDecimal(SumAmount.ToString()).ToString("0.##");
+                        totalAmount.Text = Convert.ToDecimal(SumAmount.ToString()).ToString("0.##");
                         CGST.Text = Convert.ToDecimal((0.05 * SumAmount).ToString()).ToString(("0.##"));
-                       // SGST.Text =Convert.ToDecimal((0.025 * SumAmount).ToString()).ToString(("0.##"));
-                        netTotal.Text =Math.Round(Convert.ToDecimal(SumAmount + (0.05 * SumAmount))).ToString();
-                        txtAmount.Text = numberToWordConverter.convertToWords(netTotal.Text)+"Only";
+                       // SGST.Text = Convert.ToDecimal((0.025 * SumAmount).ToString()).ToString(("0.##"));
+                        netTotal.Text = Math.Round(Convert.ToDecimal(SumAmount + (0.05 * SumAmount))).ToString();
+                        txtAmount.Text = numberToWordConverter.convertToWords(netTotal.Text) + "Only";
                         SumAmount = 0;
                     }
 
                 }
                 ctr = 0;
             }
-            else if (e.ColumnIndex == 2 && e.RowIndex > -1)//particulars cell
+            else if (e.ColumnIndex == 2 && e.RowIndex > -1)//hsn cell
             {
                 DataGridViewRow row = InvoicedataGrid.Rows[e.RowIndex];
                 try
@@ -462,7 +468,7 @@ namespace InvoiceManagement
                 supSupplySite.Text = "";
                 totalAmount.Text = "";
                 txtAmount.Text = "";
-               // SGST.Text = "";
+                //SGST.Text = "";
                 netTotal.Text = "";
                 txtInvoiceDate.Text = "";
                 InvoicedataGrid.Rows.Clear();
@@ -474,16 +480,17 @@ namespace InvoiceManagement
 
         }
 
-        public void UpdateInvoiceForm(int InvoiceId)
+        public void UpdateInvoiceForm(int InvoiceId, DataGridViewRow Erow, bool modifyData)
         {
             //get data from sp
-            SetStyle(ControlStyles.Selectable, false);
-            this.btnSave.Hide();
-            this.btnCancel.Hide();
-            this.InvoiceDate.Hide();
-            this.txtInvoiceDate.Show();
+            //this.btnSave.Hide();
+            // this.btnCancel.Hide();
+
+
             List<Particulars> particularsList = new List<Particulars>();
             bool flag = false;
+
+            //get Value on forms
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
@@ -521,7 +528,7 @@ namespace InvoiceManagement
                             Item = Convert.ToInt16(queryReader2["Item"]),
                             Particular = queryReader2["Particulars"].ToString(),
                             HSN = queryReader2["HSN"].ToString(),
-                            Qty =  Convert.ToDecimal(queryReader2["Qty"]),
+                            Qty = queryReader2["Qty"].ToString(),
                             Rate = Convert.ToDecimal(queryReader2["Rate"]),
                             Amount = Convert.ToDecimal(queryReader2["Amount"])
                         };
@@ -554,6 +561,29 @@ namespace InvoiceManagement
                 con.Close();
             }
 
+            //save modified Values
+            if (modifyData)
+            {
+                // this.
+                this.InvoiceDate.Text = txtInvoiceDate.Text;
+                this.InvoiceDate.Show();
+                // this.txtInvoiceDate.Show();
+                InvoiceIdToUpdate = InvoiceId;
+                this.button1.Enabled = false;
+                this.btnSave.Hide();
+                this.btnUpdate.Show();
+
+            }
+            else//just show the data
+            {
+                this.InvoiceDate.Hide();
+                this.txtInvoiceDate.Show();
+                this.btnSave.Enabled = false;
+                this.btnUpdate.Hide();
+
+            }
+
+
 
         }
 
@@ -574,7 +604,7 @@ namespace InvoiceManagement
         {
             this.btnClose.Hide();
             removeEmptyRows();
-            this.btnCancel.Hide();
+            //this.btnCancel.Hide();
             this.btnSave.Hide();
             this.button1.Hide();
             this.btnClose.Hide();
@@ -604,21 +634,149 @@ namespace InvoiceManagement
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
             this.btnClose.Hide();
-            bitmap = new Bitmap(new InvoiceForm().Width, new InvoiceForm().Height);
+            bitmap = new Bitmap(new InvoiceFormCopy().Width, new InvoiceFormCopy().Height);
             bitmap = Transparent2Color(bitmap, Color.White);
             this.DrawToBitmap(bitmap, this.DisplayRectangle);
-
             e.Graphics.DrawImage(bitmap, 0, 0);
             int milliseconds = 5000;
             Thread.Sleep(milliseconds);
             this.btnClose.Show();
-            
+
+
+
 
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            int Success = 0;
+
+            try
+            {
+                //get Supplier Id
+                supplier.Id = InvoiceIdToUpdate;
+                supplier.InvoiceNumber = txt_InvoiceNumber.Text;
+                supplier.InvoiceDate = InvoiceDate.Text;
+                supplier.Name = supName.Text;
+                supplier.Address = supAddress.Text;
+                supplier.GSTIN = supGSTIN.Text;
+                supplier.SupplySite = supSupplySite.Text;
+                if (!string.IsNullOrEmpty(supplier.Name))
+                {
+                    using (SqlConnection con = new SqlConnection(connectionString))
+                    {
+                        con.Open();
+                        //supplier insert
+                        SqlCommand cmd = new SqlCommand($"update Supplier set InvoiceDate='{supplier.InvoiceDate}',Name='{supplier.Name}',Address='{supplier.Address}',GSTIN='{supplier.GSTIN}',SupplySite='{supplier.SupplySite}', InvoiceNumber='{supplier.InvoiceNumber}' where Id={supplier.Id}", con);
+                        cmd.CommandType = CommandType.Text;
+                        Success = cmd.ExecuteNonQuery();
+
+                        if (Success > 0)
+                        {
+
+                            int Counter = 0;
+                            //particulars update
+                            foreach (DataGridViewRow row in InvoicedataGrid.Rows)
+                            {
+                                if (InvoicedataGrid.Rows.Count >= 1)
+                                {
+                                    Counter++;
+                                    if (Counter != InvoicedataGrid.Rows.Count)
+                                    {
+                                        // particular.Id = MaxParticularsId();
+                                        particular.SupplierId = supplier.Id;
+                                        particular.Item = Convert.ToInt16(row.Cells[0].Value.ToString());
+                                        particular.Particular = row.Cells[1].Value.ToString();
+                                        particular.HSN = row.Cells[2].Value.ToString();
+                                        particular.Qty = row.Cells[3].Value.ToString();
+                                        particular.Rate = Convert.ToDecimal(row.Cells[4].Value);
+                                        particular.Amount = Convert.ToDecimal(row.Cells[5].Value);
+                                        if (!IsAnyNullOrEmpty(particular))
+                                        {
+
+                                            SqlCommand cmd2 = new SqlCommand($"update Particular set Particulars='{particular.Particular}',HSN='{particular.HSN}',Qty='{particular.Qty}',Rate={particular.Rate},Amount={particular.Amount} where SupplierId={particular.SupplierId} and Item={particular.Item}", con);
+                                            cmd2.CommandType = CommandType.Text;
+                                            Success = cmd2.ExecuteNonQuery();
+                                        }
+                                        else
+                                        {
+                                            Success = 0;
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Success = 0;
+
+
+                                }
+                            }
+
+                            //Invoice insert
+                            if (Success > 0)
+                            {
+
+                                //invoice.Id = MaxInvoiceID();
+                                invoice.InvoiceId = supplier.Id;
+                                invoice.SupplierId = particular.Id;
+                                invoice.Amount = Convert.ToDecimal(totalAmount.Text.ToString());
+                                invoice.CGST = Convert.ToDecimal(CGST.Text.ToString());
+                                invoice.SGST = 0;
+                                invoice.netAmount = Convert.ToDecimal(netTotal.Text.ToString());
+                                invoice.amountInWord = txtAmount.Text.ToString();
+                                if (!IsAnyNullOrEmpty(invoice.amountInWord))
+                                {
+
+                                    SqlCommand cmd3 = new SqlCommand($"update Invoice set Amount={invoice.Amount},CGST={invoice.CGST},SGST={invoice.SGST},netAmount={invoice.netAmount},AmountInword='{invoice.amountInWord}' where InvoiceId={invoice.InvoiceId}", con);
+                                    cmd3.CommandType = CommandType.Text;
+                                    Success = cmd3.ExecuteNonQuery();
+                                    if (Success > 0)
+                                    {
+                                        MessageBox.Show("Invoice Updated Successfully", " Update Invoice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                        this.Hide();
+
+
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Incorrect Date supplied.");
+
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Incorrect Data Supplied, Please enter a valid Data");
+                                }
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("Incorrect Date supplied.");
+
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Can not save empty value, please enter a valid Data");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(" sql Error Please enter a valid Data");
+
+            }
         }
     }
 }

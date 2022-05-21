@@ -15,7 +15,7 @@ namespace InvoiceManagement.DataModel
 
         public string HSN { get; set; }
 
-        public decimal Qty { get; set; }
+        public string Qty { get; set; }
 
         public decimal Rate { get; set; }
 

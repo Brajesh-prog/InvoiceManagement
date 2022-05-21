@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>6071818_bill_expenses_invoice_receipt_internet bill_icon.ico</ApplicationIcon>
+    <ApplicationIcon>7811674_receipt_bill_invoice_price_payment_icon %281%29.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -69,12 +69,6 @@
     </Compile>
     <Compile Include="IGSTInvoiceForm.Designer.cs">
       <DependentUpon>IGSTInvoiceForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InvoiceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InvoiceForm.Designer.cs">
-      <DependentUpon>InvoiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InvoiceListForm.cs">
       <SubType>Form</SubType>
@@ -115,9 +109,6 @@
     <EmbeddedResource Include="IGSTInvoiceForm.resx">
       <DependentUpon>IGSTInvoiceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InvoiceForm.resx">
-      <DependentUpon>InvoiceForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="InvoiceListForm.resx">
       <DependentUpon>InvoiceListForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="6071818_bill_expenses_invoice_receipt_internet bill_icon.ico" />
+    <Content Include="7811674_receipt_bill_invoice_price_payment_icon %281%29.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
